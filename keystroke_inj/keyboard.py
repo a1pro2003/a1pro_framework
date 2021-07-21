@@ -1,11 +1,10 @@
 #!/usr/bin/env python3
 from time import sleep
 
+#Uncomment the corresponding import
 try:
     from payloads.payload1 import *
     #from payloads.payload2 import *
-    #from payloads.payload3 import *
-    #from payloads.payload4 import *
 
 except:
     pass
@@ -121,7 +120,6 @@ for count1, line in enumerate(data.split('\n')):
                 transcribe(char)
             write_report(NULL_CHAR*2+chr(44)+NULL_CHAR*5)
             write_report(NULL_CHAR*8)
-#            break
             continue
 
         sleep(0.025)
