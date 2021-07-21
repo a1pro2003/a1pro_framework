@@ -19,3 +19,6 @@ The files should be renames as follows:
     Mimikatz64.exe -> mimikatz64.exe
   
     Webbrowserpassview.exe -> webpass.exe
+
+
+Remember to place those new files into the root directory of the server
