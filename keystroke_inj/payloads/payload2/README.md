@@ -4,9 +4,9 @@ I have not added the neccessary files for obvious reasons, however you can downl
 
 The files needed will be:
 
-  Mimikatz32.exe and Mimikatz64.exe
+    Mimikatz32.exe and Mimikatz64.exe
   
-  Webbrowserpassview.exe
+    Webbrowserpassview.exe
   
 A simple google search of the names as i wrote them should take you to the right place.
 
@@ -14,8 +14,8 @@ Ensure that Webbrowserpassview.exe is the command enabled version, else you wont
 
 The files should be renames as follows:
 
-  Mimikatz32.exe -> mimikatz32.exe
+    Mimikatz32.exe -> mimikatz32.exe
   
-  Mimikatz64.exe -> mimikatz64.exe
+    Mimikatz64.exe -> mimikatz64.exe
   
-  Webbrowserpassview.exe -> webpass.exe
+    Webbrowserpassview.exe -> webpass.exe
