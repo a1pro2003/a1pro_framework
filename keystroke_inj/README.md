@@ -1,6 +1,6 @@
 ## Keystroke Injection
 
-IP and PORT must be changed for both retrieve of the powershell script and revershell.
+IP and PORT must be changed for both retrieve of the PowerShell script and reverse shell.
 
 As many payloads could be saved, just ensure to either comment out (#) the imports or have one import importing the specific payload.
 
@@ -22,7 +22,7 @@ Add the following before the line containing exit 0:
 
     /usr/bin/isticktoit_usb # libcomposite configuration
 
-Execute thge first command and then paste the next block:
+Execute the first command and then paste the next block:
     
     sudo nano /usr/bin/isticktoit_usb
  
@@ -80,7 +80,7 @@ DONE!!!!
 
 
 
-## Usefull Links
+## Useful Links
 
 USB HID TABLE
     https://usb.org/sites/default/files/documents/hut1_12v2.pdf
@@ -97,8 +97,8 @@ Powershell commands
 
 
 ## Payload 1
-For the first main payload, Reverse Shell Payload, the attacker must have a file server with the powershell located in it with the IP and PORT pointing to the listenning/attacker computer (probably it self).
-The simples and fastes way is to start a python server with this commands:
+For the first main payload, Reverse Shell Payload, the attacker must have a file server with the PowerShell located in it with the IP and PORT pointing to the listening/attacker computer (probably it self).
+The simples and fastest way is to start a python server with this commands:
 
     Python 2.x : python -m SimpleHTTPServe 8000
 
@@ -112,7 +112,7 @@ The reverse shell can be easily started with netcat with this command
 
     nc -lvp 4040
 
-Ensuring that the port is the same as the on in the powershell script.
+Ensuring that the port is the same as the on in the PowerShell script.
 
 Once all this is setup, the Keystroke Injection could be executed taking an average of 1 minute to complete and get a reverse shell!
 
@@ -120,16 +120,16 @@ Once all this is setup, the Keystroke Injection could be executed taking an aver
 Explaining the Payload:
 
 This payload opens the 'Run' Box in windows with \RUNBOX then injects the code to download the reverse shell form the file server and execute it.
-It then exedcutes that command by running it with admin priviliges, with \ADMINPRESS, and handles the window with \LEFTARROW and \ENTER.
+It then executes that command by running it with admin privileges, with \ADMINPRESS, and handles the window with \LEFTARROW and \ENTER.
 
-The revershell is then downloaded and executed and run in the background seemlesly.
+The reverse shell is then downloaded and executed and run in the background seamlessly.
 
 
 
 ## Payload 2
 For the second payload, Password Stealer Payload, will steal windows NTLM password hashes to be cracked and browser passwords.
 
-For a main recovery of the password hashes a php server must be deployed with a file to handle the upload of the files containin the passwords.
+For a main recovery of the password hashes a php server must be deployed with a file to handle the upload of the files containing the passwords.
 
 You can copy the 'server' folder in /payload2/ directory that ahs everything set up, or you can do the following to set it up manually.
 
@@ -148,16 +148,16 @@ To start the server:
 
     php -S 0.0.0.0:8000
 
-Additionally, the server root directory must contain both versions of mimikatz with filenames with mimikatz64.exe and mimikatz32.exe as well as a command suppoorted versiuon of WebBrowserPassViewer.exe names webpass.exe
+Additionally, the server root directory must contain both versions of mimikatz with filenames with mimikatz64.exe and mimikatz32.exe as well as a command supported version of WebBrowserPassViewer.exe names webpass.exe
 
 
 ##Explaining the payload:
 
-This payload opens the 'Run' Box in windows with \RUNBOX and sends keystrokes to start powershell.
-It then exedcutes that command by running it with admin priviliges, with \ADMINPRESS, and handles the window with \LEFTARROW and \ENTER.
-Once powershell is launched, all the code is injected in one line.
+This payload opens the 'Run' Box in windows with \RUNBOX and sends keystrokes to start PowerShell.
+It then executes that command by running it with admin privileges, with \ADMINPRESS, and handles the window with \LEFTARROW and \ENTER.
+Once PowerShell is launched, all the code is injected in one line.
 
-The code first downloads both versions of mimkatz from the php server, it then runs them both and dumps the output into a file and both files are then uploaded to the php server and finnally all files are deleted and the powershell windows is closed.
+The code first downloads both versions of mimkatz from the Php server, it then runs them both and dumps the output into a file and both files are then uploaded to the Php server and finally all files are deleted and the PowerShell windows is closed.
 
 Notes:
     All files are downloaded to the root of the C:\ drive.
@@ -166,7 +166,51 @@ Notes:
     This could be done so much cleaner and simpler with less code!!! (i will be working on that)
 
 
+## Payload 3
+This third payload, Persistent Reverse Shell, will provide persistent backdoor access to a victim machine even after reboot.
 
+To set up,the attacker machine must have a webserver, easily done with the following command;
 
+    php -S 0.0.0.0:8000
+
+This webserver must have the following three files in the root directory;
+
+    payload3.ps1
+    run.exe
+    run.ps1
+
+To allow our reverse shell script to be executed with admin privileges, it disables the Integrated Windows Defender Antivirus and removes the User Access Control. This ensures that the machine does not detect the payload and that the payload is run with admin privileges without a prompt. 
+
+After manually disabling Windows Defender, it opens a run box with admin privileges that adds three entries to Registry.
+The entries do the following;
+
+First entry disables the User Access Control.
+Second entry allows PowerShell scripts to be executed.
+Third entry disables Windows Defender.
+
+We enable PowerShell scripts to be run as our payload is in a PowerShell script which must be run at start up.
+
+Windows Defender is disabled in the registry to ensure it doesn't go back on as Windows actively tries to turn it back on even when turned off manually.
+
+Next, another window is opened to download the necessary scripts into the right folders.
+
+The 'payload3.ps1' is downloaded in the System32 folder
+The 'run.ps1' is downloaded in the System32 folder
+The 'run.exe' is downloaded in the Start Up folder.
+
+The run.ps1 file just re executed and adds the previous entries. This is done to ensure that they remain the same even after an update or if they are every turned back to the original state automatically.
+
+The run.exe is a small .cpp script that I left with the rest of the files that just executes both of the .ps1 scripts with an added timer.
+
+The timer, or sleep function, can be incremented by editing the .cpp file and recompiling it.
+
+If you edit the .cpp file, increasing the timer will execute the reverse shell after that amount of time to reconnect back to the attacker machine. The amount of times it happens can also be incremented in the loop.
+
+HOWEVER, every time it runs PowerShell windows will popup for less than a second so make sure to extend the time.
+
+Notes:
+
+    This works assuming no third party antivirus is installed
+    If the user logs in too quick the powrshell windows will be seen momentarily
 
 
